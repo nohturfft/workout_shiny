@@ -1,6 +1,23 @@
+#-------------------------------------------------------------------------------
+# Load packages
+#-------------------------------------------------------------------------------
 library(shiny)
+library(magrittr)
+library(dplyr)
+library(xml2)
+library(ggmap)
+library(raster)
 
-# Define server logic for random distribution app ----
+#-------------------------------------------------------------------------------
+# Clear memory; Detach packages; Clear console
+#-------------------------------------------------------------------------------
+rm(list=setdiff(ls(all=TRUE), c("gpx.loc", "proj.root", ".Random.seed")))
+if (!is.null(names(utils::sessionInfo()[["otherPkgs"]]))) pacman::p_unload("all")
+cat("\014")
+
+#-------------------------------------------------------------------------------
+# Define server logic
+#-------------------------------------------------------------------------------
 shinyServer(function(input, output, session) {
   
   # Reactive expression to generate the requested distribution ----
