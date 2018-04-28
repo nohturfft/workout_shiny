@@ -67,20 +67,20 @@ shinyServer(function(input, output, session) {
     updateSelectInput(session, "in_gpx_file",
                       choices = names(rv$gpx.file.list.selected))
   }, ignoreInit = TRUE)
-  # 
-  # observeEvent(input$zoom, {rv$zoom <- input$zoom})
-  # 
+
+  observeEvent(input$zoom, {rv$zoom <- input$zoom})
+
   observeEvent(input$in_gpx_file, {
     cat("\nStart observeEvent: input$in_gpx_file ...\n")
     rv$gpx.file.selected.name <- input$in_gpx_file
     rv$gpx.file.selected.path <- rv$gpx.file.list.selected[rv$gpx.file.selected.name]
-    # output$plot <- renderPlot(plot.google.map(df, my.zoom=rv$zoom))
     if (have_internet()) {
       shinyjs::hide(id="plottext")
       output$plottext <- renderText("")
       rv$df <- get.gpx.data(rv$gpx.file.selected.path)
       print(head(rv$df, 4))
-      output$plot <- renderPlot(plot.google.map(rv$df))
+      # output$plot <- renderPlot(plot.google.map(rv$df))
+      output$plot <- renderPlot(plot.google.map(rv$df, my.zoom=rv$zoom))
     } else {
       shinyjs::show(id="plottext")
       output$plottext <- renderText("No internet connection (required to generate map)")
