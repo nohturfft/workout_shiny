@@ -12,8 +12,8 @@ shinyUI(fluidPage(
     sidebarPanel(
       
       # Input: choose pgx folder
-      selectInput(inputId='in_gpx_folder', label='Data folder', choices=NULL),
-      selectInput(inputId='in_gpx_file', label='Choose file', choices=NULL),
+      selectInput('in_gpx_folder', 'Data folder', state.name, selectize=FALSE),
+      selectInput('in_gpx_file', 'Choose file', state.name, selectize=FALSE),
       # Input: Select the random distribution type ----
       radioButtons("dist", "Distribution type:",
                    c("Normal" = "norm",
@@ -25,11 +25,11 @@ shinyUI(fluidPage(
       br(),
       
       # Input: Slider for the number of observations to generate ----
-      sliderInput("zoom",
-                  "Zoom map:",
-                  value = 14,
-                  min = 3,
-                  max = 21)
+      sliderInput("n",
+                  "Number of observations:",
+                  value = 500,
+                  min = 1,
+                  max = 1000)
       
     ),
     
@@ -38,7 +38,7 @@ shinyUI(fluidPage(
       
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("Plot", verbatimTextOutput("plottext"), plotOutput("plot")),
+                  tabPanel("Plot", plotOutput("plot")),
                   tabPanel("Summary", verbatimTextOutput("summary")),
                   tabPanel("Table", tableOutput("table"))
       )
